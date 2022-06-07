@@ -13,17 +13,22 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.create
+import android.content.SharedPreferences
+
+
+
 
 class SignInActivity : AppCompatActivity() {
+    private val preferences: SharedPreferences? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
 
         val tv_go = findViewById<TextView>(R.id.tv_sighUp)
 
-        var et_email = findViewById<EditText>(R.id.et_login_email)
-        var et_password = findViewById<EditText>(R.id.et_login_password)
-        var btn_login = findViewById<Button>(R.id.btn_done)
+        val et_email = findViewById<EditText>(R.id.et_login_email)
+        val et_password = findViewById<EditText>(R.id.et_login_password)
+        val btn_login = findViewById<Button>(R.id.btn_done)
 
         tv_go.setOnClickListener {
             val intent : Intent = Intent(this,SignUpActivity::class.java)
@@ -32,10 +37,10 @@ class SignInActivity : AppCompatActivity() {
 
         btn_login.setOnClickListener {
             if (TextUtils.isEmpty(et_email.text.toString())|| TextUtils.isEmpty(et_password.text.toString())){
-                Toast.makeText(applicationContext, "빈칸을 채원주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "빈칸을 채워주세요", Toast.LENGTH_SHORT).show()
             }
             else {
-                if ((et_password.text.toString()).length < 8){
+                if ((et_password.text.toString()).length < 2){
                     Toast.makeText(applicationContext, "비밀번호는 8자리 이상입니다", Toast.LENGTH_SHORT).show()
                 }
 
@@ -52,9 +57,12 @@ class SignInActivity : AppCompatActivity() {
         }
     }
     fun loginUser(signInData : SignInRequest){
+
+        val PREFERENCE = "template.android"
         val service  = ApiClient.getInstance().create(ApiService::class.java)
         val call : Call<SignInResponse> = service.getSignIn(signInData)
 
+        SharedPref.openSharedPrep(this)
         call.enqueue(object : Callback<SignInResponse> {
             override fun onResponse(
                 call: Call<SignInResponse>,
@@ -63,11 +71,26 @@ class SignInActivity : AppCompatActivity() {
                 if (response.isSuccessful){
                     Toast.makeText(applicationContext, "로그인 성공", Toast.LENGTH_SHORT).show()
                     Log.d("msg", response.toString())
+                    Log.d("msg", response.headers().toString())
+                    Log.d("msg", response.headers().get("Set-Cookie").toString())
+                    val pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE)
+                    val editor = pref.edit()
+                    editor.putString("email", signInData.email)
+                    editor.putString("password", signInData.password)
+                    editor.apply()
+
+                    finish()
                     val intent : Intent = Intent(this@SignInActivity, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
+                }
+                else if (response.code() == 401){
+                    Toast.makeText(applicationContext, "로그인 실패", Toast.LENGTH_SHORT).show()
                 }
                 else {
                     Log.d("msg", response.toString())
+
+
                 }
             }
 

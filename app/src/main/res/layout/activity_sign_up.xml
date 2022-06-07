@@ -41,8 +41,21 @@
         app:layout_constraintLeft_toLeftOf="@id/line_left"
         app:layout_constraintRight_toRightOf="@id/line_right"
         app:layout_constraintTop_toTopOf="@id/et_make_email"
-        app:layout_constraintBottom_toBottomOf="@id/btn_make"
+        app:layout_constraintBottom_toBottomOf="@id/et_make_entranceYear"
         android:hint="password을 입력하세요"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/et_make_entranceYear"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberPassword"
+        app:layout_constraintLeft_toLeftOf="@id/line_left"
+        app:layout_constraintRight_toRightOf="@id/line_right"
+        app:layout_constraintTop_toTopOf="@id/et_make_password"
+        app:layout_constraintBottom_toBottomOf="@id/btn_make"
+        android:hint="입학년도를 입력하세요"
         android:textColor="@color/black"
         android:textSize="15sp" />
 
@@ -55,7 +68,7 @@
         android:textColor="@color/white"
         app:layout_constraintRight_toRightOf="@id/line_right"
         app:layout_constraintLeft_toLeftOf="@id/line_left"
-        app:layout_constraintTop_toTopOf="@id/et_make_password"
+        app:layout_constraintTop_toTopOf="@id/et_make_entranceYear"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

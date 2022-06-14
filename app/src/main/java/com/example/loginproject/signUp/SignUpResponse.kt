@@ -1,4 +1,4 @@
-package com.example.loginproject
+package com.example.loginproject.signUp
 
 import com.google.gson.annotations.SerializedName
 

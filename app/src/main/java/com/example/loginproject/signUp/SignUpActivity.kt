@@ -1,4 +1,4 @@
-package com.example.loginproject
+package com.example.loginproject.signUp
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,12 +8,10 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
+import com.example.loginproject.R
+import com.example.loginproject.data.api.ApiClient
+import com.example.loginproject.data.api.ApiService
+import com.example.loginproject.signIn.SignInActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

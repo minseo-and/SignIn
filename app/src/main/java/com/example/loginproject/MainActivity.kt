@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import com.example.loginproject.signIn.SignInActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -11,14 +12,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val btn_signOut = findViewById<Button>(R.id.btn_signOut)
-
         btn_signOut.setOnClickListener {
             sign_out()
         }
     }
 
     fun sign_out(){
-        val intent : Intent = Intent(this@MainActivity, SignInActivity::class.java)
+        val intent : Intent = Intent(this, SignInActivity::class.java)
         startActivity(intent)
         finish()
     }

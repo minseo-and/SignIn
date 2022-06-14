@@ -1,4 +1,4 @@
-package com.example.loginproject
+package com.example.loginproject.signIn
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -12,14 +12,19 @@ import android.widget.Toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
 import android.content.SharedPreferences
-
-
+import com.example.loginproject.MainActivity
+import com.example.loginproject.R
+import com.example.loginproject.signUp.SignUpActivity
+import com.example.loginproject.data.api.ApiClient
+import com.example.loginproject.data.api.ApiService
+import retrofit2.create
 
 
 class SignInActivity : AppCompatActivity() {
     private val preferences: SharedPreferences? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
@@ -30,8 +35,9 @@ class SignInActivity : AppCompatActivity() {
         val et_password = findViewById<EditText>(R.id.et_login_password)
         val btn_login = findViewById<Button>(R.id.btn_done)
 
+
         tv_go.setOnClickListener {
-            val intent : Intent = Intent(this,SignUpActivity::class.java)
+            val intent : Intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
 
@@ -49,20 +55,20 @@ class SignInActivity : AppCompatActivity() {
                         email = (et_email.text.toString()),
                         password = (et_password.text.toString())
                     )
-
                     loginUser(signInData)
-
                 }
             }
         }
+
+
     }
+
+
     fun loginUser(signInData : SignInRequest){
 
-        val PREFERENCE = "template.android"
-        val service  = ApiClient.getInstance().create(ApiService::class.java)
+        val service = ApiClient.getInstance().create(ApiService::class.java)
         val call : Call<SignInResponse> = service.getSignIn(signInData)
 
-        SharedPref.openSharedPrep(this)
         call.enqueue(object : Callback<SignInResponse> {
             override fun onResponse(
                 call: Call<SignInResponse>,
@@ -73,24 +79,17 @@ class SignInActivity : AppCompatActivity() {
                     Log.d("msg", response.toString())
                     Log.d("msg", response.headers().toString())
                     Log.d("msg", response.headers().get("Set-Cookie").toString())
-                    val pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE)
-                    val editor = pref.edit()
-                    editor.putString("email", signInData.email)
-                    editor.putString("password", signInData.password)
-                    editor.apply()
 
-                    finish()
                     val intent : Intent = Intent(this@SignInActivity, MainActivity::class.java)
                     startActivity(intent)
                     finish()
                 }
                 else if (response.code() == 401){
-                    Toast.makeText(applicationContext, "로그인 실패", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "로그인 실패 다시 시도하세요", Toast.LENGTH_SHORT).show()
+
                 }
                 else {
                     Log.d("msg", response.toString())
-
-
                 }
             }
 

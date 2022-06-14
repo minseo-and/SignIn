@@ -1,4 +1,4 @@
-package com.example.loginproject
+package com.example.loginproject.signIn
 
 data class SignInRequest(
     val email: String,

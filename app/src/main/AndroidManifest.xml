@@ -13,12 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LoginProject">
         <activity
-            android:name=".SignUpActivity"
+            android:name=".signUp.SignUpActivity"
             android:exported="true" >
 
         </activity>
         <activity
-            android:name=".SignInActivity"
+            android:name=".signIn.SignInActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
